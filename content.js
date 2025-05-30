@@ -1,6 +1,7 @@
 const search_dom_id = '__bookmarks_search__'
 
-let bookMarks = []
+let bookMarks = [],
+    historyBookMarks = []
 
 const hidden = () => {
     const container = document.getElementById(search_dom_id)
@@ -28,6 +29,7 @@ const sendBookMarks = async () => {
         await chrome.runtime.sendMessage({
             action: 'updateBookMarks',
             bookMarks,
+            historyBookMarks,
         })
     } catch (e) {
         console.log('bookmark-search error:', e)
@@ -91,9 +93,10 @@ const createContainer = () => {
 }
 
 // 监听来自 popup.html 的消息
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(message => {
     if (message.action === 'openPopup') {
         bookMarks = message.bookMarks || []
+        historyBookMarks = message.historyBookMarks || []
         createContainer()
     }
 })

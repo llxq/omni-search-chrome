@@ -1,14 +1,16 @@
 let bookMarks = [],
+    historyBookMarks = [],
     selectUrl = null
+
 const isIframe = window.self !== window.top
 
 const close = () => {
-    sendMessage({action: 'closePopup'})
+    sendMessage({ action: 'closePopup' })
 }
 
 const selectedByUrl = url => {
     if (url) {
-        sendMessage({action: 'goToBookmark', url})
+        sendMessage({ action: 'goToBookmark', url })
         close()
     }
 }
@@ -18,8 +20,11 @@ const focusInput = e => {
     if (action === 'focusInput') {
         const input = document.getElementById('bookmarksSearchInput')
         if (input) {
+            // 清空 input 的value
+            input.value = ''
             setTimeout(() => {
                 input.focus()
+                search({ target: { value: '' } })
             }, 100)
         }
     }
@@ -29,16 +34,20 @@ const sendMessage = message => {
     window.parent.postMessage(message, '*')
 }
 
-
 window.addEventListener('message', focusInput)
 
 const setSelectStatus = () => {
-    const currentItem = document.querySelector('.bookmarks-search__list-item[data-url="' + selectUrl + '"]')
-    currentItem && currentItem.classList.add('bookmarks-search__list-item-active')
+    const currentItem = document.querySelector(
+        '.bookmarks-search__list-item[data-url="' + selectUrl + '"]'
+    )
+    currentItem &&
+        currentItem.classList.add('bookmarks-search__list-item-active')
 }
 
 const nextSelect = () => {
-    const currentItem = document.querySelector('.bookmarks-search__list-item.bookmarks-search__list-item-active')
+    const currentItem = document.querySelector(
+        '.bookmarks-search__list-item.bookmarks-search__list-item-active'
+    )
     if (currentItem) {
         const nextItem = currentItem.nextElementSibling
         if (nextItem) {
@@ -50,7 +59,9 @@ const nextSelect = () => {
 }
 
 const preSelect = () => {
-    const currentItem = document.querySelector('.bookmarks-search__list-item.bookmarks-search__list-item-active')
+    const currentItem = document.querySelector(
+        '.bookmarks-search__list-item.bookmarks-search__list-item-active'
+    )
     if (currentItem) {
         const preItem = currentItem.previousElementSibling
         if (preItem) {
@@ -62,41 +73,60 @@ const preSelect = () => {
 }
 
 const search = event => {
-    const value = event.target.value
+    const value = event?.target?.value ?? ''
     const list = document.getElementById('bookmarksSearchList')
     let listItems = ''
 
     const compare = (compareValue, targetValue) => {
         if (compareValue && targetValue) {
-            return targetValue.toLowerCase().includes(compareValue.toLowerCase())
+            return targetValue
+                .toLowerCase()
+                .includes(compareValue.toLowerCase())
         }
         return false
     }
 
-    if (value) {
-        const filterResult = bookMarks.filter(item => {
-            const { title, url, parentTitle } = item
-            return compare(value, title) || compare(value, url) || compare(value, parentTitle)
-        })
-        listItems = filterResult.map(item => `
-        <div class="bookmarks-search__list-item" data-url="${ item.url }">
-            ${item.faviconURL ? `<img class="bookmarks-search__list-item-favicon" src="${ item.faviconURL }">` : ''}
-            ${ item.title }
-        </div>
-    `).join('')
-        selectUrl = filterResult[0]?.url
+    // 修改排序规则，优先匹配 name，其次是 url ，最后是父节点
+    const compareRule = ['title', 'url', 'parentTitle']
+    const stacks = Array.from({ length: compareRule.length }, () => [])
+    for (let i = 0; i < compareRule.length; i++) {
+        stacks[i] = bookMarks.filter(f => compare(value, f[compareRule[i]]))
     }
+    let filterResult = stacks.reduce(
+        (pre, cur) => [...new Set([...pre, ...cur])],
+        []
+    )
+    filterResult = value ? filterResult : historyBookMarks
+    listItems = filterResult
+        .map(
+            item => `
+        <div class="bookmarks-search__list-item" data-url="${item.url}">
+            ${
+                item.faviconURL
+                    ? `<img class="bookmarks-search__list-item-favicon" src="${item.faviconURL}">`
+                    : ''
+            }
+            ${item.title}
+        </div>
+    `
+        )
+        .join('')
+    selectUrl = filterResult[0]?.url
     list.innerHTML = listItems
     setSelectStatus()
 }
 
-document.getElementById('bookmarksSearchInput').addEventListener('input', search)
+document
+    .getElementById('bookmarksSearchInput')
+    .addEventListener('input', search)
 
 const goToBookmark = event => {
     const goToUrl = event.target?.getAttribute?.('data-url') ?? ''
     selectedByUrl(goToUrl)
 }
-document.getElementById('bookmarksSearchList').addEventListener('click', goToBookmark)
+document
+    .getElementById('bookmarksSearchList')
+    .addEventListener('click', goToBookmark)
 
 const container = document.getElementById('bookmarksSearchContainer')
 if (container) {
@@ -116,6 +146,7 @@ if (container) {
 chrome.runtime?.onMessage?.addListener(message => {
     if (message.action === 'updateBookMarks') {
         bookMarks = message.bookMarks || []
+        historyBookMarks = message.historyBookMarks || []
     }
 })
 
@@ -142,4 +173,4 @@ window.addEventListener('keydown', event => {
     }
 })
 
-sendMessage({action: 'initSuccess'})
+sendMessage({ action: 'initSuccess' })

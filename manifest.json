@@ -3,13 +3,17 @@
     "name": "Bookmarks search",
     "version": "1.0.0",
     "description": "Search bookmarks",
+    "icons": {
+        "16": "icons/icon.png"
+    },
     "permissions": [
         "tabs",
         "activeTab",
         "bookmarks",
         "windows",
         "history",
-        "favicon"
+        "favicon",
+        "storage"
     ],
     "background": {
         "service_worker": "background.js"
@@ -34,12 +38,8 @@
     },
     "web_accessible_resources": [
         {
-            "resources": [
-                "popup.html"
-            ],
-            "matches": [
-                "<all_urls>"
-            ]
+            "resources": ["popup.html"],
+            "matches": ["<all_urls>"]
         }
     ]
 }
