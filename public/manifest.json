@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmarks search",
+  "version": "2.0.0",
+  "description": "基于chrome的书签搜索插件。",
+  "icons": {
+    "16": "icons/icon.png"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "bookmarks",
+    "windows",
+    "history",
+    "favicon",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "open-bookmarks-search-dialog": {
+      "suggested_key": {
+        "default": "Ctrl+B",
+        "mac": "Command+B"
+      },
+      "description": "Toggle a feature"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -2,12 +2,17 @@
 这是一个chroma插件，可以按住 ctrl/command + B 进行搜索您的书签，并且点击打开您的书签。支持上下切换回车打开新页面。支持文件夹搜索。多层级文件夹使用 `/` 分割。如：`文件夹1/文件夹2/标签1`
 
 # 使用
-- 下载项目到本地
-```shell
-git clone https://github.com/llxq/bookmark-search.git
-```
-- 打开地址：[扩展程序](chrome://extensions/)。
-- 将 `bookmark-search文件夹` 拖动到 扩展内部，类似如图
+1. 下载项目到本地
+    ```shell
+    git clone https://github.com/llxq/bookmark-search.git
+    ```
+2. 如果想要自定义内容，可自行打包，如果不想自定义，可直接跳过本步骤
+    ```shelll
+    npm run build
+    # 把打包好的 dist 文件夹 拖动到 扩展内部
+    ```
+3. 打开地址：[扩展程序](chrome://extensions/)。
+4. 将 `dist 文件夹` 拖动到 扩展内部，类似如图
 ![image](https://github.com/user-attachments/assets/37e3c920-8ba5-4df6-9f64-00955dfffeb5)
 - 在非浏览器自定义页面（如：设置页面，扩展程序页面）按下快捷键即可打开搜索。
   - windows
