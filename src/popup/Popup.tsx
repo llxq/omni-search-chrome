@@ -20,7 +20,7 @@ const closePopup = (): void =>
  * @param compareValue
  * @param targetValue
  */
-const compareUrl = (compareValue: string, targetValue: string): boolean => {
+const compare = (compareValue: string, targetValue: string): boolean => {
   if (compareValue && targetValue) {
     return targetValue.toLowerCase().includes(compareValue.toLowerCase());
   }
@@ -85,8 +85,19 @@ export const Popup = () => {
       );
       for (let i = 0; i < compareRule.length; i++) {
         stacks[i] = bookmarks.filter((f) =>
-          compareUrl(keyword, Reflect.get(f, compareRule[i]) as string),
-        );
+          compare(keyword, Reflect.get(f, compareRule[i]) as string),
+        ).sort((s, t) => {
+          const rule = compareRule[i];
+          const sValue = (Reflect.get(s, rule) || "") as string;
+          const tValue = (Reflect.get(t, rule) || "") as string;
+          const kl = keyword.toLowerCase();
+          if (rule === "title") {
+            return sValue.length - tValue.length;
+          } else if (rule === "url") {
+            return kl.indexOf(sValue) - kl.indexOf(tValue);
+          }
+          return 1;
+        });
       }
       const result = stacks.reduce(
         (pre, cur) => [...new Set([...pre, ...cur])],
