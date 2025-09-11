@@ -10229,7 +10229,7 @@ function Yn(z) {
     J.current = z;
   }, [z]), J;
 }
-let Se = ["title", "url", "parentTitle"];
+let Se = ["title", "parentTitle", "url"];
 const wy = () => {
   const [z, J] = ml.useState([]), [j, m] = ml.useState([]), [w, P] = ml.useState([]), tl = Yn(w), k = ml.useRef(null), [_, E] = ml.useState(""), N = Yn(_), [el, $] = ml.useState(""), Nl = Yn(el), [Hl, kl] = ml.useState({
     openNewTab: "1",
@@ -10455,9 +10455,9 @@ const wy = () => {
             searchRule: _
           }),
           options: [
-            { name: "URL", value: "url" },
             { name: "标题", value: "title" },
-            { name: "父节点标题", value: "parentTitle" }
+            { name: "父节点标题", value: "parentTitle" },
+            { name: "URL", value: "url" }
           ]
         }
       ) }),

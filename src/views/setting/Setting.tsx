@@ -73,9 +73,9 @@ export const Setting = () => {
                 })
               }
               options={[
-                { name: "URL", value: "url" },
                 { name: "标题", value: "title" },
                 { name: "父节点标题", value: "parentTitle" },
+                { name: "URL", value: "url" },
               ]}
             />
           </FormItem>

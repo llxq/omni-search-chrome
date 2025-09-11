@@ -39,7 +39,7 @@ function useLatest<T>(value: T) {
   return ref;
 }
 
-let compareRule: (keyof IBookmark)[] = ["title", "url", "parentTitle"];
+let compareRule: (keyof IBookmark)[] = ["title", "parentTitle", "url"];
 
 export const Popup = () => {
   const [bookmarks, setBookmarks] = useState<IBookmark[]>([]);
