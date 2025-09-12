@@ -18,8 +18,9 @@
     # 把打包好的 dist 文件夹 拖动到 扩展内部
     ```
 3. 打开地址：[扩展程序](chrome://extensions/)。
-4. 将 `dist 文件夹` 拖动到 扩展内部，类似如图
-![image](https://github.com/user-attachments/assets/37e3c920-8ba5-4df6-9f64-00955dfffeb5)
+4. 将 `dist 文件夹` 拖动到 扩展内部，成功后会出现对应的扩展程序。
+![image](https://github.com/user-attachments/assets/54bf5914-fd7c-4019-ac06-00eaad36be81)
+
 - 在非浏览器自定义页面（如：设置页面，扩展程序页面）按下快捷键即可打开搜索。
   - Windows
     - Ctrl + B
