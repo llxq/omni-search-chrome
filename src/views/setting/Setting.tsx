@@ -67,7 +67,7 @@ export const Setting = () => {
               <Radio value="1">是</Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="查找规则">
+          <FormItem label="搜索规则">
             <Checkbox
               name="searchRule"
               value={formData.searchRule}
@@ -78,7 +78,7 @@ export const Setting = () => {
               }
               options={[
                 { name: "标题", value: "title" },
-                { name: "父节点标题", value: "parentTitle" },
+                { name: "父文件夹标题", value: "parentTitle" },
                 { name: "URL", value: "url" },
               ]}
             />

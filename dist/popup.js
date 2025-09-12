@@ -10480,7 +10480,7 @@ const wy = () => {
           )
         }
       ),
-      /* @__PURE__ */ C.jsx(ni, { label: "查找规则", children: /* @__PURE__ */ C.jsx(
+      /* @__PURE__ */ C.jsx(ni, { label: "搜索规则", children: /* @__PURE__ */ C.jsx(
         ky,
         {
           name: "searchRule",
@@ -10490,7 +10490,7 @@ const wy = () => {
           }),
           options: [
             { name: "标题", value: "title" },
-            { name: "父节点标题", value: "parentTitle" },
+            { name: "父文件夹标题", value: "parentTitle" },
             { name: "URL", value: "url" }
           ]
         }
