@@ -10286,6 +10286,8 @@ const wy = () => {
   );
   return yl.useEffect(() => {
     const j = (el) => {
+      if (Zl.current)
+        return;
       if (el.key === "Escape") {
         dd(), E("");
         return;
@@ -10303,10 +10305,10 @@ const wy = () => {
           F(ul.current[$].id), el.preventDefault();
         }
       }
-      el.key === "Enter" && (Zl.current || (Bl(
+      el.key === "Enter" && (Bl(
         ul.current[cl],
         el.metaKey || el.ctrlKey
-      ), el.preventDefault()));
+      ), el.preventDefault());
     };
     return window.addEventListener("keydown", j), () => {
       window.removeEventListener("keydown", j);

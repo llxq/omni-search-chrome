@@ -161,6 +161,9 @@ export const Popup = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (isCompositionRef.current) {
+        return;
+      }
       /* 按下esc关闭 */
       if (event.key === "Escape") {
         closePopup();
@@ -191,15 +194,12 @@ export const Popup = () => {
 
       /* 按下回车 */
       if (event.key === "Enter") {
-        // 正在合成的时候不触发查询。
-        if (!isCompositionRef.current) {
-          // ctrl 按下 或者 command 按下
-          selectBookmarkByUrl(
-            searchBookmarksRef.current[index],
-            event.metaKey || event.ctrlKey,
-          );
-          event.preventDefault();
-        }
+        // ctrl 按下 或者 command 按下
+        selectBookmarkByUrl(
+          searchBookmarksRef.current[index],
+          event.metaKey || event.ctrlKey,
+        );
+        event.preventDefault();
       }
     };
 
