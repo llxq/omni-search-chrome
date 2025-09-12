@@ -25,12 +25,13 @@
     - Ctrl + B
   - Mac
     - Command + B
-   [
+
 ![image](https://github.com/user-attachments/assets/1934a555-8123-4ad5-a72e-e303c156d108)
 
 
 # 搜索结果展示
-![image](https://github.com/user-attachments/assets/5e29e896-48a7-4d4b-9e43-365fbf3a0257)
+![image](https://github.com/user-attachments/assets/01265646-0a14-424c-8ea3-60327344009d)
+
 
 # 注意
 `第一次安装完之后原来曾经打开过的浏览器标签页使用需要刷新页面才能使用。新打开的正常使用即可。`
