@@ -44,6 +44,7 @@ export const Setting = () => {
       if (result.searchBookmarkSetting) {
         setFormData({ ...formData, ...result.searchBookmarkSetting });
       }
+      // 组件内部没有做响应式所以等待数据更新后渲染。
       setLoading(false);
     });
   }, []);
@@ -53,7 +54,10 @@ export const Setting = () => {
       <div className="setting__container">
         <div className="setting__title">设置</div>
         <div className="setting__content">
-          <FormItem label="是否新窗口打开">
+          <FormItem
+            label="是否新窗口打开"
+            tips="按住 Ctrl/Command 键可以强制新窗口打开"
+          >
             <RadioGroup
               name="openNewTab"
               value={formData.openNewTab}

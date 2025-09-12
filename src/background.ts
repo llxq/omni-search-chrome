@@ -167,9 +167,9 @@ chrome.runtime.onMessage.addListener(async (message) => {
     await chrome.storage.local.set({
       [BOOK_MARK_SEARCH_LOCAL_STORAGE_ID]: history,
     });
-    // 如果是
+    const isCtrl = Boolean(message.isCtrl);
     let activeId: TUndefinable<number>;
-    if (+data.searchBookmarkSetting.openNewTab === 0) {
+    if (!isCtrl && +data.searchBookmarkSetting.openNewTab === 0) {
       const tab = await chrome.tabs.query({});
       const domain = getDomain(message.url);
       if (tab?.length && domain) {

@@ -131,21 +131,26 @@ export const Popup = () => {
   /**
    * 根据 url 打开书签
    * @param bookmark
+   * @param isCtrl 是否按下 ctrl/command/windows 键
    */
-  const selectBookmarkByUrl = useCallback((bookmark: IBookmark): void => {
-    setSelectedId(bookmark?.id || "");
-    if (!bookmark?.url && formDataRef.current.useDefaultSearch === "0") {
-      return;
-    }
-    sendMessageToPopupScript({
-      action: "goToBookmark",
-      url: bookmark?.url || "",
-      keyword: keywordRef.current,
-    });
-    closePopup();
-    // 关闭之后清空输入框
-    setKeyword("");
-  }, []);
+  const selectBookmarkByUrl = useCallback(
+    (bookmark: IBookmark, isCtrl = false): void => {
+      setSelectedId(bookmark?.id || "");
+      if (!bookmark?.url && formDataRef.current.useDefaultSearch === "0") {
+        return;
+      }
+      sendMessageToPopupScript({
+        action: "goToBookmark",
+        url: bookmark?.url || "",
+        keyword: keywordRef.current,
+        isCtrl,
+      });
+      closePopup();
+      // 关闭之后清空输入框
+      setKeyword("");
+    },
+    [],
+  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -179,7 +184,11 @@ export const Popup = () => {
 
       /* 按下回车 */
       if (event.key === "Enter") {
-        selectBookmarkByUrl(searchBookmarksRef.current[index]);
+        // ctrl 按下 或者 command 按下
+        selectBookmarkByUrl(
+          searchBookmarksRef.current[index],
+          event.metaKey || event.ctrlKey,
+        );
         event.preventDefault();
       }
     };
@@ -209,7 +218,9 @@ export const Popup = () => {
         <div className="bookmarks-search__list">
           {searchBookmarks.map((item) => (
             <div
-              onClick={() => selectBookmarkByUrl(item)}
+              onClick={(event) =>
+                selectBookmarkByUrl(item, event.metaKey || event.ctrlKey)
+              }
               className={`bookmarks-search__list-item ${selectedId === item.id ? "bookmarks-search__list-item-active" : ""}`}
               key={item.id}
             >

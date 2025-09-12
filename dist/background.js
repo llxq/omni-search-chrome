@@ -1,77 +1,78 @@
 const l = "bookMarkSearch";
-const u = () => new Promise((r) => {
+const m = () => new Promise((t) => {
   chrome.storage.local.get(l, (e) => {
-    r(e[l] || []);
+    t(e[l] || []);
   });
-}), f = (r) => {
+}), k = (t) => {
   const e = new URL(chrome.runtime.getURL("/_favicon/"));
-  return e.searchParams.set("pageUrl", r), e.searchParams.set("size", "24"), e.toString();
-}, k = async () => new Promise(async (r) => {
-  const e = [], o = (t, i = "") => {
-    t.children && t.children.forEach(
+  return e.searchParams.set("pageUrl", t), e.searchParams.set("size", "24"), e.toString();
+}, d = async () => new Promise(async (t) => {
+  const e = [], o = (r, i = "") => {
+    r.children && r.children.forEach(
       (s) => o(
         s,
-        i ? `${i}/${t.title}` : t.title
+        i ? `${i}/${r.title}` : r.title
       )
-    ), t.url && t.title && e.push({
-      url: t.url,
-      title: t.title,
-      id: t.id,
-      parentId: t.parentId,
+    ), r.url && r.title && e.push({
+      url: r.url,
+      title: r.title,
+      id: r.id,
+      parentId: r.parentId,
       parentTitle: i,
-      faviconURL: f(t.url)
+      faviconURL: k(r.url)
     });
   }, a = await chrome.bookmarks.getTree();
-  Array.isArray(a) ? a.forEach((t) => o(t)) : o(a), r(e);
+  Array.isArray(a) ? a.forEach((r) => o(r)) : o(a), t(e);
 });
-chrome.commands.onCommand.addListener((r) => {
-  r === "open-bookmarks-search-dialog" && chrome.tabs.query({ active: !0, currentWindow: !0 }, async (e) => {
+chrome.commands.onCommand.addListener((t) => {
+  t === "open-bookmarks-search-dialog" && chrome.tabs.query({ active: !0, currentWindow: !0 }, async (e) => {
     const [o] = e;
     if (o) {
       const a = o.url;
       if (a && !a.startsWith("chrome://") && !a.startsWith("chrome-extension://"))
         try {
-          const t = await k(), i = await u();
+          const r = await d(), i = await m();
           o.id && await chrome.tabs.sendMessage(o.id, {
             action: "openPopup",
-            bookMarks: t,
-            historyBookmarks: i.map((s) => t.find((c) => c.url === s)).filter(Boolean)
+            bookMarks: r,
+            historyBookmarks: i.map((s) => r.find((n) => n.url === s)).filter(Boolean)
           });
-        } catch (t) {
-          console.log("bookmark-search error:", t);
+        } catch (r) {
+          console.log("bookmark-search error:", r);
         }
       else
         console.log("Cannot inject script into this page:", a);
     }
   });
 });
-const h = (r) => r ? new URL(r).hostname : "";
-let n = !1;
-chrome.runtime.onMessage.addListener(async (r) => {
-  if (r.action === "goToBookmark") {
-    if (n)
+const u = (t) => t ? new URL(t).hostname : "";
+let c = !1;
+chrome.runtime.onMessage.addListener(async (t) => {
+  if (t.action === "goToBookmark") {
+    if (c)
       return;
-    n = !0;
+    c = !0;
     const e = await chrome.storage.local.get("searchBookmarkSetting");
-    if (!r.url) {
-      e.searchBookmarkSetting.useDefaultSearch === "1" && r.keyword && await chrome.search.query({
+    if (!t.url) {
+      e.searchBookmarkSetting.useDefaultSearch === "1" && t.keyword && await chrome.search.query({
         disposition: "NEW_TAB",
-        text: r.keyword
+        text: t.keyword
       });
       return;
     }
-    const o = await u(), a = o.findIndex((i) => i === r.url);
-    a !== -1 && o.splice(a, 1), o.unshift(r.url), o.length > 10 && o.pop(), await chrome.storage.local.set({
+    const o = await m(), a = o.findIndex((s) => s === t.url);
+    a !== -1 && o.splice(a, 1), o.unshift(t.url), o.length > 10 && o.pop(), await chrome.storage.local.set({
       [l]: o
     });
-    let t;
-    if (+e.searchBookmarkSetting.openNewTab == 0) {
-      const i = await chrome.tabs.query({}), s = h(r.url);
-      if (i?.length && s) {
-        const c = i.find((m) => h(m.url) === s);
-        c && (t = c.id);
+    const r = !!t.isCtrl;
+    let i;
+    if (!r && +e.searchBookmarkSetting.openNewTab == 0) {
+      const s = await chrome.tabs.query({}), n = u(t.url);
+      if (s?.length && n) {
+        const h = s.find((f) => u(f.url) === n);
+        h && (i = h.id);
       }
     }
-    t ? await chrome.tabs.update(t, { active: !0 }) : await chrome.tabs.create({ url: r.url }), n = !1;
+    i ? await chrome.tabs.update(i, { active: !0 }) : await chrome.tabs.create({ url: t.url }), c = !1;
   }
 });
