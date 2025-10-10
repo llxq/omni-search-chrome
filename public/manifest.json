@@ -35,14 +35,16 @@
         "default": "Ctrl+K",
         "mac": "Command+K"
       },
-      "description": "open setting page"
+      "description": "open setting page",
+      "global": true
     },
     "open-bookmarks-search-dialog": {
       "suggested_key": {
         "default": "Ctrl+B",
         "mac": "Command+B"
       },
-      "description": "Toggle a feature"
+      "description": "Toggle a feature",
+      "global": true
     }
   },
   "web_accessible_resources": [
