@@ -13,7 +13,7 @@
     ```shell
     git clone https://github.com/llxq/bookmark-search.git
     ```
-2. 如果想要自定义内容，可自行打包，如果不想自定义，可直接跳过本步骤。如需要自定义插件内容需要 Nodejs 环境（版本： 18 / 20+），以及 npm 或其他（pnpm、yarn）包管理器。
+2. 如果想要自定义内容，可自行打包，如果不想自定义，可直接跳过本步骤到第`5`步。如需要自定义插件内容需要 Nodejs 环境（版本： 18 / 20+），以及 npm 或其他（pnpm、yarn）包管理器。
     ```shelll
     npm run build
     ```
