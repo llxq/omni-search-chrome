@@ -5,11 +5,10 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: ["src/background.ts", "src/content.ts", "src/views/main.tsx"],
+      entry: "src/views/main.tsx",
       formats: ["es"],
       // 按照文件名称命名
-      fileName: (_, entryName) =>
-        `${entryName === "main" ? "popup" : entryName}.js`,
+      fileName: () => "popup.js",
       cssFileName: "popup",
     },
     // all inline assets

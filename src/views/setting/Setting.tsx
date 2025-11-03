@@ -26,13 +26,11 @@ export const Setting = () => {
         type: "basic",
         iconUrl: "icons/icon.png",
         title: "提示",
-        message: "设置已保存，新设置重新打开搜索框即可生效。",
+        message: "设置已保存",
       });
     } finally {
       setSaveLoading(false);
     }
-    // 关闭
-    window.close();
   };
 
   const updateFormData = (data: Partial<ISearchBookmarkSetting>) => {
@@ -52,7 +50,6 @@ export const Setting = () => {
   return (
     !loading && (
       <div className="setting__container">
-        <div className="setting__title">设置</div>
         <div className="setting__content">
           <FormItem
             label="是否新窗口打开"

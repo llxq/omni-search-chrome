@@ -17,15 +17,6 @@
     "search",
     "notifications"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ],
   "action": {
     "default_popup": "popup.html"
   },
@@ -35,15 +26,7 @@
         "default": "Ctrl+K",
         "mac": "Command+K"
       },
-      "description": "open setting page",
-      "global": true
-    },
-    "open-bookmarks-search-dialog": {
-      "suggested_key": {
-        "default": "Ctrl+B",
-        "mac": "Command+B"
-      },
-      "description": "Toggle a feature",
+      "description": "open search and setting page",
       "global": true
     }
   },
