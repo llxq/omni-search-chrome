@@ -1,51 +1,156 @@
-# bookmark-search 插件
-`Bookmarks Search` 是一个基于 `Chrome` 的书签搜索扩展程序，可帮助用户在浏览器中快速查找并打开已保存的书签 。安装后，只需按下快捷键 `Ctrl+K（Mac 上为 Command+K）`，即可弹出搜索框，在其中输入关键词来实时搜索书签。插件支持使用 `上/下方向键` 选择搜索结果，并按 `回车` 在新标签页打开所选书签。 此外，插件支持按层级搜索文件夹：在查询中使用 `/` 分隔多级文件夹路径，如 `文件夹1/文件夹2/书签名`。插件通过调用 Chrome 提供的 bookmarks 相关 API 来匹配书签节点，实现了对书签 `标题`、`URL` 及 `父文件夹名称` 的模糊搜索 。通过这些功能，`Bookmarks Search` 目标是让大量书签变得易于检索，提高浏览效率。
+# 🔖 Bookmark Search - Chrome 书签搜索扩展
 
-# 功能介绍
-- __快速搜索书签__：在任何网页中按下 `Ctrl/Command + K` 调出搜索框，输入关键词即可高效检索书签。
-- __历史记录__：插件自身会记录最近打开过的 `10条记录`。方便下次打开搜索框能快速打开。
-- __自定义搜索规则__：点击扩展图标（或者通过快捷键 `Ctrl/Command + K`）可打开插件设置页，对搜索规则、打开方式等进行自定义配置。
-- __使用默认搜索引擎__：当搜索框中未找到匹配书签时，可选择启用默认搜索引擎进行网页搜索，以防漏检重要内容。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+`Bookmark Search` 是一个轻量级的 Chrome 扩展，帮助您通过快捷键快速搜索和访问浏览器书签。支持模糊搜索、文件夹层级搜索和自定义搜索规则。
 
-# 安装与部署说明
-1. 下载项目到本地
-    ```shell
-    git clone https://github.com/llxq/bookmark-search.git
-    ```
-2. 如果想要自定义内容，可自行打包，如果不想自定义，可直接跳过本步骤到第`5`步。如需要自定义插件内容需要 Nodejs 环境（版本： 18 / 20+），以及 npm 或其他（pnpm、yarn）包管理器。
-    ```shelll
-    npm run build
-    ```
-3. 把打包好的 `dist` 文件夹 拖动到 扩展内部
-4. 打开地址：[扩展程序](chrome://extensions/)。
-5. 将 `dist 文件夹` 拖动到 扩展内部，成功后会出现对应的扩展程序。
-![image](https://github.com/user-attachments/assets/54bf5914-fd7c-4019-ac06-00eaad36be81)
+![Demo](https://github.com/user-attachments/assets/3cf53211-f0a1-491d-9d83-e7c834ef3c07)
 
-# 注意
-`第一次安装完之后原来曾经打开过的浏览器标签页使用需要刷新页面才能使用。新打开的正常使用即可。`
+## ✨ 功能特性
 
-# 使用
+- ⚡ **全局快速搜索** - 在浏览器的任何页面中，使用 `Ctrl/⌘ + K` 快速调出搜索框
+- 🔍 **智能匹配** - 支持标题、URL 和父文件夹名称的模糊搜索
+- 📂 **文件夹层级** - 使用 `/` 分隔符搜索多级文件夹结构
+- ⏱️ **历史记录** - 自动保存最近访问的 10 条记录
+- ⚙️ **高度可定制** - 可配置的搜索规则和快捷键
+- 🌐 **搜索引擎集成** - 未找到书签时支持使用默认搜索引擎搜索
 
-1. 在非浏览器自定义页面（如：设置页面，扩展程序页面）按下快捷键即可打开搜索。
-  - Windows
-    - Ctrl + K
-  - Mac
-    - Command + K
+## 🚀 快速开始
 
-![image](https://github.com/user-attachments/assets/3cf53211-f0a1-491d-9d83-e7c834ef3c07)
+### 安装方法
 
+#### 方法一：从源码安装（推荐开发者）
 
-# 搜索结果展示
-![image](https://github.com/user-attachments/assets/ecf72fb7-4c33-4ed7-b0c4-1987e9ad4bbb)
+```bash
+# 克隆仓库
+git clone https://github.com/llxq/bookmark-search.git
+cd bookmark-search
 
-# 设置
-可以切换tab调整搜索的设置
-![image](https://github.com/user-attachments/assets/5dbc1e99-07ff-4f60-9a14-ace17202fd07)
+# 安装依赖
+npm install
 
+# 构建扩展
+npm run build
 
+# 加载扩展
+1. 打开 Chrome 扩展页面 (chrome://extensions/)
+2. 启用"开发者模式"
+3. 点击"加载已解压的扩展程序"
+4. 选择项目中的 `dist` 文件夹
+```
 
-# 常见问题解答 （FAQ）
-- __Q: 为什么按下了快捷键还是不会生效？__  <br />A: 这是可能因为该插件的快捷键和其他应用或者插件的快捷键冲突导致。您可尝试打开 `chrome://extensions/shortcuts` 地址，将 `激活该扩展程序` 修改为其他快捷键。
-- __Q：为什么有时搜索结果不准确？__  <br />A：可能是搜索规则设置导致的。请打开扩展设置，检查“查找规则”选项，确认启用了您需要的匹配字段（标题、父文件夹标题、URL）。如果书签过多也可能排序导致部分匹配项不明显。您可以输入更精准的关键词组合或在结果列表中上下移动查看。
+#### 方法二：直接加载（普通用户）
 
+1. 下载最新的 [Release](https://github.com/llxq/bookmark-search/releases)
+2. 解压下载的文件
+3. 按照上述步骤 3-4 加载扩展
+
+## 🎯 使用指南
+
+### 基本操作
+
+- **打开搜索**：`Ctrl + K` (Windows/Linux) 或 `⌘ + K` (Mac)
+- **导航**：使用 `↑/↓` 方向键选择结果
+- **打开**：`Enter` 在新标签页打开选中的书签
+- **关闭**：`Esc` 或点击搜索框外部
+
+### ⚙️ 设置选项
+
+点击扩展图标打开设置页面，您可以：
+- 调整搜索匹配规则
+- 自定义快捷键
+- 配置搜索引擎集成
+- 清除搜索历史
+
+![Settings](https://github.com/user-attachments/assets/5dbc1e99-07ff-4f60-9a14-ace17202fd07)
+
+## 🔧 开发指南
+
+### 项目结构
+
+```
+bookmark-search/
+├── dist/                  # 构建输出目录
+│   └── *                 # 编译后的文件
+├── public/                # 静态资源
+│   ├── icons/             # 扩展图标
+│   ├── manifest.json      # 扩展配置文件
+│   └── popup.html         # 弹出窗口HTML
+├── src/                   # 源代码
+│   ├── shared/            # 共享工具和类型
+│   ├── types/             # TypeScript 类型定义
+│   └── views/             # React 组件
+│       ├── checkbox/      # 复选框组件
+│       ├── form-item/     # 表单项组件
+│       ├── layout/        # 布局组件
+│       ├── popup/         # 弹出窗口组件
+│       ├── radio/         # 单选框组件
+│       ├── search/        # 搜索功能组件
+│       └── setting/       # 设置页面组件
+├── .gitignore            # Git 忽略配置
+├── package.json          # 项目配置
+├── tsconfig.json         # TypeScript 配置
+├── tsconfig.node.json    # Node 环境配置
+├── tsconfig.app.json     # 应用配置
+└── vite.config.ts        # Vite 构建配置
+```
+
+### 开发命令
+
+```bash
+# 开发模式 (热重载)
+npm run dev
+
+# 构建生产版本
+npm run build
+
+# 代码检查
+npm run lint
+```
+
+### 贡献指南
+
+欢迎提交 [Issues](https://github.com/llxq/bookmark-search/issues) 和 [Pull Requests](https://github.com/llxq/bookmark-search/pulls)！请确保：
+
+1. 代码符合项目代码风格
+2. 提交信息清晰明确
+3. 包含相关的测试
+
+## ❓ 常见问题
+
+<details>
+  <summary>为什么快捷键不生效？</summary>
+  可能是与其他扩展或应用程序的快捷键冲突。请访问 `chrome://extensions/shortcuts` 修改扩展的快捷键。
+</details>
+
+<details>
+  <summary>为什么有些书签搜索不到？</summary>
+  请检查：
+  1. 设置中的搜索规则是否包含了相关字段（标题/URL/父文件夹）
+  2. 尝试使用更精确的关键词
+  3. 确认书签是否存在于当前浏览器的书签中
+</details>
+
+## 📝 权限说明
+
+本扩展需要以下权限来提供完整功能：
+
+- `bookmarks` - 读取和管理浏览器书签
+- `tabs` - 获取当前标签页信息
+- `activeTab` - 与当前活动标签页交互
+- `windows` - 管理浏览器窗口
+- `history` - 访问浏览历史记录
+- `favicon` - 获取网站图标
+- `storage` - 保存用户设置和搜索历史
+- `search` - 使用默认搜索引擎进行搜索
+- `notifications` - 显示操作通知
+
+## 📄 许可证
+
+本项目采用 [MIT 许可证](LICENSE)
+
+---
+
+<p align="center">
+  Made with ❤️ by llxq
+</p>
