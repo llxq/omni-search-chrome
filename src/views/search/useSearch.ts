@@ -176,7 +176,7 @@ export const useSearch = () => {
       ([bookmarks, historyBookmarks]) => {
         setBookmarks(bookmarks);
         const bookMarksMap = new Map(bookmarks.map((b) => [b.id, b]));
-        const currentHistoryBookmarks = historyBookmarks.reduce(
+        const currentHistoryBookmarks = (historyBookmarks || []).reduce(
           (result: IBookmark[], item) => {
             if (bookMarksMap.has(item)) {
               result.push(bookMarksMap.get(item)!);
@@ -235,8 +235,14 @@ export const useSearch = () => {
           currentHistoryBookmarks.pop();
         }
         setHistoryBookmarks(currentHistoryBookmarks);
+        // 加入缓存
+        await chrome.storage.local.set({
+          [BOOK_MARK_SEARCH_LOCAL_STORAGE_ID]: currentHistoryBookmarks.map(
+            (m) => m.id,
+          ),
+        });
         let activeTab: TUndefinable<chrome.tabs.Tab>;
-        if (!isCtrl && +openNewTab === 0) {
+        if (!isCtrl && +openNewTab === 1) {
           const tab = await chrome.tabs.query({});
           const domain = getDomain(bookmark.url);
           if (tab?.length && domain) {

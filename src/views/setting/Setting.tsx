@@ -52,7 +52,7 @@ export const Setting = () => {
       <div className="setting__container">
         <div className="setting__content">
           <FormItem
-            label="是否新窗口打开"
+            label="是否打开已存在匹配的标签页"
             tips="按住 Ctrl/Command 键可以强制新窗口打开"
           >
             <RadioGroup
@@ -60,8 +60,8 @@ export const Setting = () => {
               value={formData.openNewTab}
               onChange={(value) => updateFormData({ openNewTab: value })}
             >
-              <Radio value="0">否（通过匹配域名查找已打开页面）</Radio>
-              <Radio value="1">是</Radio>
+              <Radio value="0">是（通过匹配域名查找已打开页面）</Radio>
+              <Radio value="1">否</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="搜索规则">
@@ -80,7 +80,7 @@ export const Setting = () => {
               ]}
             />
           </FormItem>
-          <FormItem label="搜索为空时是否使用默认搜索引擎搜索">
+          <FormItem label="书签不存在时是否使用默认搜索引擎搜索关键字">
             <RadioGroup
               name="useDefaultSearch"
               value={formData.useDefaultSearch}
