@@ -19,14 +19,14 @@ const layoutTabs = [
     component: <Setting />,
   },
   {
-    name: "临时书签",
+    name: "临时书签管理",
     key: "temporary",
     component: <TemporaryData />,
   },
 ];
 
 export const Layout = () => {
-  const [activeTab, setActiveTab] = useState("temporary");
+  const [activeTab, setActiveTab] = useState("search");
   const [temporaryData, setTemporaryData] =
     useState<TUndefinable<IBookmark>>(void 0);
 

@@ -10783,12 +10783,12 @@ const dh = () => {
     component: /* @__PURE__ */ q.jsx(hh, {})
   },
   {
-    name: "临时书签",
+    name: "临时书签管理",
     key: "temporary",
     component: /* @__PURE__ */ q.jsx(yh, {})
   }
 ], mh = () => {
-  const [T, O] = I.useState("temporary"), [D, r] = I.useState(void 0);
+  const [T, O] = I.useState("search"), [D, r] = I.useState(void 0);
   return I.useEffect(() => {
     chrome.storage.local.get(ei).then((z) => {
       const p = Reflect.get(z, ei);
