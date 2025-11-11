@@ -1,9 +1,12 @@
 import "./setting.scss";
 import { useEffect, useState } from "react";
+import { getStorage } from "../../shared/storage.ts";
 import type { ISearchBookmarkSetting } from "../../shared/types.ts";
 import { Checkbox } from "../checkbox/Checkbox.tsx";
 import { FormItem } from "../form-item/FormItem.tsx";
 import { Radio, RadioGroup } from "../radio/Radio.tsx";
+
+export const SETTING_STORAGE_KEY = "searchBookmarkSetting";
 
 export const Setting = () => {
   const [loading, setLoading] = useState(true);
@@ -38,9 +41,9 @@ export const Setting = () => {
   };
 
   useEffect(() => {
-    chrome.storage.local.get("searchBookmarkSetting", (result) => {
-      if (result.searchBookmarkSetting) {
-        setFormData({ ...formData, ...result.searchBookmarkSetting });
+    getStorage(SETTING_STORAGE_KEY).then((result) => {
+      if (result) {
+        setFormData({ ...formData, ...result });
       }
       // 组件内部没有做响应式所以等待数据更新后渲染。
       setLoading(false);

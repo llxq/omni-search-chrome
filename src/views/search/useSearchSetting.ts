@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { getStorage } from "../../shared/storage.ts";
 import type { ISearchBookmarkSetting } from "../../shared/types.ts";
+import { SETTING_STORAGE_KEY } from "../setting/Setting.tsx";
 
 export const useSearchSetting = () => {
   const [setting, setSetting] = useState<ISearchBookmarkSetting>({
@@ -9,13 +11,12 @@ export const useSearchSetting = () => {
   });
 
   const updateCompareRule = async () => {
-    const storage = await chrome.storage.local.get<{
-      searchBookmarkSetting: ISearchBookmarkSetting;
-    }>("searchBookmarkSetting");
-    if (storage.searchBookmarkSetting) {
+    const storage =
+      await getStorage<ISearchBookmarkSetting>(SETTING_STORAGE_KEY);
+    if (storage) {
       setSetting({
         ...setting,
-        ...storage.searchBookmarkSetting,
+        ...storage,
       });
     }
   };

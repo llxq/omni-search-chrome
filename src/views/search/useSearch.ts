@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { sendGetTemporaryDataEvent } from "../../shared/event.ts";
+import { getStorage, setStorage } from "../../shared/storage.ts";
 import type { IBookmark, TSearchRule } from "../../shared/types.ts";
+import { findSimilarTab, getDomain } from "../../shared/url.ts";
 import { useSearchSetting } from "./useSearchSetting.ts";
 
 /**
@@ -76,11 +78,7 @@ const getBookmarks = async () => {
  * 获取历史选中的数据
  */
 const getHistorySelectBookmarks = (): Promise<string[]> => {
-  return new Promise((resolve) => {
-    chrome.storage.local.get(BOOK_MARK_SEARCH_LOCAL_STORAGE_ID, (result) => {
-      resolve(result[BOOK_MARK_SEARCH_LOCAL_STORAGE_ID] || []);
-    });
-  });
+  return getStorage(BOOK_MARK_SEARCH_LOCAL_STORAGE_ID, []);
 };
 
 /**
@@ -93,14 +91,6 @@ const someValue = (compareValue: string, targetValue: string): boolean => {
     return targetValue.toLowerCase().includes(compareValue.toLowerCase());
   }
   return false;
-};
-
-/**
- * 获取某个url的域名
- */
-const getDomain = (url?: string) => {
-  if (!url) return "";
-  return new URL(url).hostname;
 };
 
 /**
@@ -241,17 +231,16 @@ export const useSearch = () => {
         }
         setHistoryBookmarks(currentHistoryBookmarks);
         // 加入缓存
-        await chrome.storage.local.set({
-          [BOOK_MARK_SEARCH_LOCAL_STORAGE_ID]: currentHistoryBookmarks.map(
-            (m) => m.id,
-          ),
-        });
+        await setStorage(
+          BOOK_MARK_SEARCH_LOCAL_STORAGE_ID,
+          currentHistoryBookmarks.map((m) => m.id),
+        );
         let activeTab: TUndefinable<chrome.tabs.Tab>;
         if (!isCtrl && +openNewTab === 1) {
-          const tab = await chrome.tabs.query({});
+          const tabs = await chrome.tabs.query({});
           const domain = getDomain(bookmark.url);
-          if (tab?.length && domain) {
-            activeTab = tab.find((t) => getDomain(t.url) === domain);
+          if (tabs?.length && domain) {
+            activeTab = findSimilarTab(tabs, bookmark.url);
           }
         }
         if (activeTab) {

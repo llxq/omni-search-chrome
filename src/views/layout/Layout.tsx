@@ -1,7 +1,8 @@
 import "./layout.scss";
 import { useEffect, useState } from "react";
 import { POPUP_TYPE_KEY } from "../../shared/event.ts";
-import type { IBookmark } from "../../shared/types.ts";
+import { getStorage, removeStorage } from "../../shared/storage.ts";
+import type { IBookmark, ITemporaryData } from "../../shared/types.ts";
 import { AddTemporary } from "../add-temporary/AddTemporary.tsx";
 import { Search } from "../search/Search.tsx";
 import { Setting } from "../setting/Setting.tsx";
@@ -33,15 +34,12 @@ export const Layout = () => {
     useState<TUndefinable<IBookmark>>(void 0);
 
   useEffect(() => {
-    chrome.storage.local.get(POPUP_TYPE_KEY).then((res) => {
-      const data = Reflect.get(res, POPUP_TYPE_KEY) as IBookmark & {
-        _t: number;
-      };
+    getStorage<ITemporaryData & { _t: number }>(POPUP_TYPE_KEY).then((data) => {
       if (data) {
         // 判断数据是否超过2s，超过则认为是过期数据
         if (Date.now() - data._t > 2 * 1000) {
           // 过期数据直接删除
-          chrome.storage.local.remove(POPUP_TYPE_KEY);
+          void removeStorage(POPUP_TYPE_KEY);
         } else {
           setTemporaryData(data);
         }

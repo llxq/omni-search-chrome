@@ -11,6 +11,7 @@ export const AddTemporary = ({
   setTemporaryData: (data: TUndefinable<IBookmark>) => void;
 }) => {
   const [title, setTitle] = useState(data.title || "");
+  const [isComposition, setIsComposition] = useState(false);
 
   const back = () => {
     setTemporaryData(void 0);
@@ -38,9 +39,11 @@ export const AddTemporary = ({
           autoComplete="off"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          onCompositionStart={() => setIsComposition(true)}
+          onCompositionEnd={() => setIsComposition(false)}
           className="add-temporary__input"
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && !isComposition) {
               confirm();
             }
           }}

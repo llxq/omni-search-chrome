@@ -14,7 +14,8 @@ export const TemporaryData = ({
 
   useEffect(() => {
     sendGetTemporaryDataEvent().then((data) => {
-      setTemporaryList(data);
+      // 按照创建时间排序
+      setTemporaryList(data.sort((a, b) => b.createdTime - a.createdTime));
     });
   }, []);
 
