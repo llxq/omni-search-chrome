@@ -36,7 +36,7 @@ npm run build
 1. 打开 Chrome 扩展页面 (chrome://extensions/)
 2. 启用"开发者模式"
 3. 点击"加载已解压的扩展程序"
-4. 选择项目中的 `dist` 文件夹
+4. 选择项目中的 `dist` 文件夹，（或者直接将 `dist` 目录拖动到浏览器中即可）
 ```
 
 #### 方法二：直接加载（普通用户）
@@ -44,6 +44,9 @@ npm run build
 1. 下载最新的 [Release](https://github.com/llxq/bookmark-search/releases)
 2. 解压下载的文件
 3. 按照上述步骤 3-4 加载扩展
+
+#### 🔔 安装参考
+<img width="1920" height="934" alt="image" src="https://github.com/user-attachments/assets/a00a2cc8-75f9-4501-8125-fca9444baa97" />
 
 ## 🎯 使用指南
 
