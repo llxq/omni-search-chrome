@@ -206,6 +206,10 @@ export const useSearch = () => {
    * @param isCtrl 是否按下ctrl
    */
   const open = async (id: string, isCtrl?: boolean) => {
+    if (isOpening) {
+      return;
+    }
+    setIsOpening(true);
     // 当前激活的tab的url
     const currentTab = await chrome.tabs.query({
       active: true,
@@ -214,9 +218,6 @@ export const useSearch = () => {
     const activeTabUrl = currentTab[0]?.url || "";
     const isBlank = ["about:blank", "chrome://newtab/"].includes(activeTabUrl);
     try {
-      if (isOpening) {
-        return;
-      }
       const { useDefaultSearch, openNewTab } = setting;
       if (!id && keyword && +useDefaultSearch === 1) {
         await chrome.search.query({
@@ -272,7 +273,6 @@ export const useSearch = () => {
         }
       }
       closeSearch();
-      setIsOpening(true);
     } catch (e) {
       console.error(e);
       alert(
