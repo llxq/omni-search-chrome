@@ -4,7 +4,8 @@
 
 `Bookmark Search` 是一款轻量级 `Chrome 扩展`，让您通过 `Ctrl/⌘ + K` 快速搜索和访问书签。它支持模糊搜索、文件夹层级导航、保存搜索历史和高度自定义设置。此外，还提供独特的临时书签管理功能，让您保存网页而不污染主书签列表。
 
-<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/34cd2f3b-104b-4221-8095-48dc4059e7b8" />
+<img width="600" height="600" alt="image" src="https://github.com/user-attachments/assets/d263080a-c5a5-4418-bd79-bbd499a2ee4f" />
+
 
 ## ✨ 功能特性
 
