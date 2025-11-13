@@ -20,6 +20,33 @@
     overflow: hidden;
     width: 100%;
     padding: 16px;
+
+    .search-similarity {
+      width: 200px;
+      padding: 8px 12px;
+      outline: none;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      border: var(--search-input-border-size) solid var(--border-color);
+      margin-bottom: 4px;
+      color: var(--text-color);
+
+      &::placeholder {
+        font-size: 12px;
+        color: var(--search-input-placeholder-color);
+      }
+
+      &:focus {
+        border-color: var(--color-primary);
+      }
+    }
+
+    .setting__tips {
+      font-size: 12px;
+      color: #999;
+      margin: 8px 0;
+    }
   }
 
   .setting__footer {

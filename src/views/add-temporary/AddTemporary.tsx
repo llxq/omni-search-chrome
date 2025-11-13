@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SET_USER_TEMPORARY_DATA } from "../../shared/event.ts";
+import { createNotification } from "../../shared/notice.ts";
 import type { IBookmark } from "../../shared/types.ts";
 import "./add-temporary.scss";
 
@@ -18,11 +19,15 @@ export const AddTemporary = ({
   };
 
   const confirm = () => {
+    if (!title) {
+      createNotification("标题不能为空");
+      return;
+    }
     chrome.runtime.sendMessage({
       type: SET_USER_TEMPORARY_DATA,
       data: {
         ...data,
-        title,
+        title: title.trim(),
       },
     });
     window.close();

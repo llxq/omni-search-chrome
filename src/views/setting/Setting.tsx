@@ -1,5 +1,6 @@
 import "./setting.scss";
 import { useEffect, useState } from "react";
+import { getDefaultSetting } from "../../shared/shared.ts";
 import { getStorage } from "../../shared/storage.ts";
 import type { ISearchBookmarkSetting } from "../../shared/types.ts";
 import { Checkbox } from "../checkbox/Checkbox.tsx";
@@ -10,11 +11,8 @@ export const SETTING_STORAGE_KEY = "searchBookmarkSetting";
 
 export const Setting = () => {
   const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState<ISearchBookmarkSetting>({
-    openNewTab: "1",
-    searchRule: ["url", "title", "parentTitle"],
-    useDefaultSearch: "0",
-  });
+  const [formData, setFormData] =
+    useState<ISearchBookmarkSetting>(getDefaultSetting());
 
   const [saveLoading, setSaveLoading] = useState(false);
   const submit = async () => {
@@ -91,6 +89,50 @@ export const Setting = () => {
             >
               <Radio value="0">否</Radio>
               <Radio value="1">是</Radio>
+            </RadioGroup>
+          </FormItem>
+          <div className="setting__tips">
+            下面搜索配置为
+            <a href="https://fusejs.io/" target="_blank">
+              fuse.js
+            </a>
+            的配置
+          </div>
+          <FormItem
+            label="匹配的严格程度。0 (精确) 到 100（完全不相关）"
+            tips="0-100"
+          >
+            <input
+              type="text"
+              className="search-similarity"
+              value={formData.searchSimilarity}
+              onChange={(e) => {
+                updateFormData({
+                  searchSimilarity: e.target.value as unknown as number,
+                });
+              }}
+              onBlur={(e) => {
+                const value = Number(e.target.value);
+                updateFormData({
+                  searchSimilarity:
+                    isNaN(value) || !value ? 30 : value > 100 ? 100 : value,
+                });
+              }}
+            />
+          </FormItem>
+          <FormItem
+            label="是否启用扩展搜索"
+            tips="允许使用（如 '^'、'$'、'='、'!'）进行精确、前缀、后缀或反向匹配。"
+          >
+            <RadioGroup
+              name="enableExtensionSearch"
+              value={formData.enableExtensionSearch}
+              onChange={(value) =>
+                updateFormData({ enableExtensionSearch: value })
+              }
+            >
+              <Radio value="1">是</Radio>
+              <Radio value="0">否</Radio>
             </RadioGroup>
           </FormItem>
         </div>

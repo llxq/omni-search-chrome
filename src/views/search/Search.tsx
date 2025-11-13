@@ -174,6 +174,9 @@ export const Search = () => {
             </div>
           ))}
         </div>
+        {!searchBookmarks.length ? (
+          <div className="no-result">未找到结果，请尝试其他关键字</div>
+        ) : null}
       </div>
     </div>
   );

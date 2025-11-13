@@ -36,4 +36,14 @@ export interface ISearchBookmarkSetting {
    * @default 0
    */
   useDefaultSearch: TBooleanValue;
+  /**
+   * 搜索结果的相似度
+   * @default 30
+   */
+  searchSimilarity: number;
+  /**
+   * 是否启用扩展搜索
+   * @default 0
+   */
+  enableExtensionSearch: TBooleanValue;
 }

@@ -1,3 +1,5 @@
+import Fuse from "fuse.js";
+
 /**
  * 从完整的 URL 中提取路径部分（pathname），不包括查询参数或哈希。
  * @param url 要处理的完整 URL 字符串。
@@ -33,34 +35,22 @@ export const findSimilarTab = (
   if (sameDomainTabs.length < 2) {
     return sameDomainTabs[0];
   }
-  const currentPath = getPath(currentUrl) || "";
-  let bestMatchTab: TUndefinable<chrome.tabs.Tab> = void 0;
-  let maxSimilarityScore = -1;
-  sameDomainTabs.forEach((tab) => {
-    const tabPath = getPath(tab.url) || "";
-    let currentSimilarityScore = 0;
-    if (tabPath === currentPath) {
-      currentSimilarityScore = Number.MAX_VALUE;
-    } else {
-      const currentPathSegments = currentPath.split("/");
-      const tabPathSegments = tabPath.split("/");
-      const maxLength = Math.max(
-        currentPathSegments.length,
-        tabPathSegments.length,
-      );
-      for (let i = 0; i < maxLength; i++) {
-        if (currentPathSegments[i] === tabPathSegments[i]) {
-          currentSimilarityScore++;
-        } else {
-          break;
-        }
-      }
-    }
-    if (currentSimilarityScore > maxSimilarityScore) {
-      maxSimilarityScore = currentSimilarityScore;
-      bestMatchTab = tab;
-    }
-  });
-
-  return bestMatchTab;
+  return (
+    new Fuse(
+      sameDomainTabs.map((tab) => {
+        return {
+          url: tab.url,
+          item: tab,
+          _compareKeyword: getPath(tab.url),
+        };
+      }),
+      {
+        keys: [
+          { name: "_compareKeyword", weight: 0.9 },
+          { name: "url", weight: 0.6 },
+        ],
+        threshold: 0.3,
+      },
+    ).search(getPath(currentUrl) || "")[0]?.item?.item || sameDomainTabs[0]
+  );
 };

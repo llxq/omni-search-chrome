@@ -1,7 +1,12 @@
+import Fuse, { type FuseOptionKey } from "fuse.js";
 import { useEffect, useState } from "react";
 import { sendGetTemporaryDataEvent } from "../../shared/event.ts";
+import {
+  getFuseSearchResult,
+  ruleSettingToWeight,
+} from "../../shared/shared.ts";
 import { getStorage, setStorage } from "../../shared/storage.ts";
-import type { IBookmark, TSearchRule } from "../../shared/types.ts";
+import type { IBookmark } from "../../shared/types.ts";
 import { findSimilarTab, getDomain } from "../../shared/url.ts";
 import { useSearchSetting } from "./useSearchSetting.ts";
 
@@ -90,18 +95,6 @@ const getHistorySelectBookmarks = (): Promise<string[]> => {
 };
 
 /**
- * 判断是否匹配
- * @param compareValue
- * @param targetValue
- */
-const someValue = (compareValue: string, targetValue: string): boolean => {
-  if (compareValue && targetValue) {
-    return targetValue.toLowerCase().includes(compareValue.toLowerCase());
-  }
-  return false;
-};
-
-/**
  * 关闭窗口
  */
 export const closeSearch = () => {
@@ -115,7 +108,8 @@ export const useSearch = () => {
   const [keyword, setKeyword] = useState<string>("");
   const [searchBookmarks, setSearchBookmarks] = useState<IBookmark[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
-  const { setting } = useSearchSetting();
+  const { setting, loadingSetting } = useSearchSetting();
+  const [fuse, setFuse] = useState<TUndefinable<Fuse<IBookmark>>>(void 0);
 
   useEffect(() => {
     if (!keyword) {
@@ -124,80 +118,71 @@ export const useSearch = () => {
       setSelectedId(historyBookmarks[0]?.id || "");
       return;
     }
-    const searchRule = setting.searchRule || ["url", "title", "parentTitle"];
-    const searchRules: IBookmark[][] = Array.from({
-      length: searchRule.length,
-    });
-    const addIdSet = new Set<string>();
-    const getSearchResultByRule = (rule: TSearchRule) => {
-      return bookmarks
-        .filter((b) => {
-          if (addIdSet.has(b.id)) {
-            return false;
-          }
-          const isSame = someValue(keyword, Reflect.get(b, rule) as string);
-          if (isSame) {
-            addIdSet.add(b.id);
-          }
-          return isSame;
-        })
-        .sort((s, t) => {
-          // 排序规则
-          const sValue = (Reflect.get(s, rule) || "") as string;
-          const tValue = (Reflect.get(t, rule) || "") as string;
-          const kl = keyword.toLowerCase();
-          if (rule === "title") {
-            // 标题匹配，优先显示长度短的
-            return sValue.length - tValue.length;
-          } else if (rule === "url") {
-            // URL 匹配，优先显示关键词在 URL 开头附近的
-            const sIndex = sValue.toLowerCase().indexOf(kl);
-            const tIndex = tValue.toLowerCase().indexOf(kl);
-            return sIndex - tIndex;
-          }
-          return 0; // 默认不改变顺序
-        });
-    };
-    const result = searchRules.reduce(
-      (result: IBookmark[], _, currentIndex) => {
-        const rule = searchRule[currentIndex];
-        const searchResult = getSearchResultByRule(rule);
-        if (searchResult.length) {
-          result.push(...searchResult);
-        }
-        return result;
-      },
-      [] as IBookmark[],
-    );
+    // 匹配关键字排除所有空格
+    const result = (fuse?.search(keyword) || []).map(({ item }) => item);
     setSearchBookmarks(result);
     setSelectedId(result[0]?.id || "");
   }, [keyword, bookmarks, historyBookmarks, setting.searchRule]);
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([getBookmarks(), getHistorySelectBookmarks()]).then(
-      ([bookmarks, historyBookmarks]) => {
-        setBookmarks(bookmarks);
-        const bookMarksMap = new Map(bookmarks.map((b) => [b.id, b]));
-        const currentHistoryBookmarks = (historyBookmarks || []).reduce(
-          (result: IBookmark[], item) => {
-            if (bookMarksMap.has(item)) {
-              result.push(bookMarksMap.get(item)!);
-            }
-            return result;
-          },
-          [],
-        );
-        setHistoryBookmarks(currentHistoryBookmarks);
-        if (currentHistoryBookmarks.length) {
-          // default select history first
-          setSelectedId(currentHistoryBookmarks[0].id);
-          setSearchBookmarks(currentHistoryBookmarks);
-        }
-        setLoading(false);
-      },
-    );
-  }, []);
+    if (!loadingSetting) {
+      setLoading(true);
+      Promise.all([getBookmarks(), getHistorySelectBookmarks()]).then(
+        ([currentBookmarks, historyBookmarks]) => {
+          setBookmarks(currentBookmarks);
+          const bookMarksMap = new Map<string, IBookmark>();
+          const fuseSearchBookmarks: IBookmark[] = [];
+          currentBookmarks.forEach((item) => {
+            bookMarksMap.set(item.id, item);
+            fuseSearchBookmarks.push(getFuseSearchResult(item));
+          });
+          setFuse(
+            new Fuse(fuseSearchBookmarks, {
+              keys: setting.searchRule.reduce(
+                (result: FuseOptionKey<IBookmark>[], m) => {
+                  const currentWeight = ruleSettingToWeight[m] || 0;
+                  result.push({
+                    weight: currentWeight,
+                    name: m,
+                  });
+                  result.push({
+                    weight: currentWeight * 0.8,
+                    name: `${m}NoSpace`,
+                  });
+                  if (setting.supportPinyin === "1" && m === "title") {
+                    result.push({
+                      weight: currentWeight * 0.9,
+                      name: "titlePinyin",
+                    });
+                  }
+                  return result;
+                },
+                [] as string[],
+              ),
+              threshold: setting.searchSimilarity / 100,
+              useExtendedSearch: setting.enableExtensionSearch === "1",
+            }),
+          );
+          const currentHistoryBookmarks = (historyBookmarks || []).reduce(
+            (result: IBookmark[], item) => {
+              if (bookMarksMap.has(item)) {
+                result.push(bookMarksMap.get(item)!);
+              }
+              return result;
+            },
+            [],
+          );
+          setHistoryBookmarks(currentHistoryBookmarks);
+          if (currentHistoryBookmarks.length) {
+            // default select history first
+            setSelectedId(currentHistoryBookmarks[0].id);
+            setSearchBookmarks(currentHistoryBookmarks);
+          }
+          setLoading(false);
+        },
+      );
+    }
+  }, [loadingSetting]);
 
   const [isOpening, setIsOpening] = useState(false);
   /**

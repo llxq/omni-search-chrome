@@ -53,7 +53,7 @@ export const TemporaryData = ({
     !isComposition &&
       setShowList(
         temporaryList.filter((item) =>
-          item.title.toLowerCase().includes(keywords.toLowerCase()),
+          item.title.toLowerCase().includes(keywords.trim().toLowerCase()),
         ),
       );
   }, [keywords, temporaryList, isComposition]);
