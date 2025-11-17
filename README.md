@@ -7,7 +7,7 @@
 
 ## ✨ 功能特性
 
-- ⚡ **全局快速搜索** - 在浏览器的任何页面中，使用 `Ctrl/⌘ + K` 快速调出搜索框
+- ⚡ **全局快速搜索** - 在浏览器的任何页面中，使用 `Ctrl/⌘ + K` 快速调出搜索界面，或者点击扩展图标也可打开搜索界面。
 - 🔍 **智能匹配** - 支持标题、URL 和父文件夹名称的模糊搜索，搜索功能使用 [fusejs](https://fusejs.io/) 插件，拥有强大的搜索功能，还能开启各种正则匹配搜索。
 - 📂 **文件夹层级** - 使用 `/` 分隔符搜索多级文件夹结构
 - ⏱️ **历史记录** - 自动保存最近访问的 10 条记录
@@ -47,6 +47,9 @@ npm run build
 
 #### 🔔 安装参考
 <img width="1920" height="934" alt="image" src="https://github.com/user-attachments/assets/a00a2cc8-75f9-4501-8125-fca9444baa97" />
+- 点击固定，可以将插件固定在扩展部分，方便使用。
+<img width="320" height="110" alt="image" src="https://github.com/user-attachments/assets/60261aa6-fd74-41e3-ad68-ebfb824adde9" />
+
 
 ## 🎯 使用指南
 
@@ -155,7 +158,9 @@ npm run lint
 
 <details>
   <summary>为什么快捷键不生效？</summary>
-  可能是与其他扩展或应用程序的快捷键冲突。请访问 `chrome://extensions/shortcuts` 修改扩展的快捷键。
+  可能是与其他扩展或应用程序的快捷键冲突。请访问 `chrome://extensions/shortcuts` 修改扩展的快捷键。__可以重新设置快捷键，重新设置为 `Ctrl/⌘ + K` 或者您想要的快捷键即可激活。__
+ <img width="1920" height="335" alt="image" src="https://github.com/user-attachments/assets/3f7fab17-3bd8-4a93-aa35-3ea39059dd97" />
+
 </details>
 
 <details>
