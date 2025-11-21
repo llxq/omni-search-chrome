@@ -1,5 +1,6 @@
 import "./setting.scss";
 import { useEffect, useState } from "react";
+import { createNotification } from "../../shared/notice.ts";
 import { getDefaultSetting } from "../../shared/shared.ts";
 import { getStorage } from "../../shared/storage.ts";
 import type { ISearchBookmarkSetting } from "../../shared/types.ts";
@@ -22,13 +23,7 @@ export const Setting = () => {
     setSaveLoading(true);
     try {
       await chrome.storage.local.set({ searchBookmarkSetting: formData });
-      // 提示
-      await chrome.notifications.create({
-        type: "basic",
-        iconUrl: "icons/icon.png",
-        title: "提示",
-        message: "设置已保存",
-      });
+      createNotification("设置已保存");
     } finally {
       setSaveLoading(false);
     }
@@ -80,6 +75,19 @@ export const Setting = () => {
                 { name: "URL", value: "url" },
               ]}
             />
+          </FormItem>
+          <FormItem
+            label="是否搜索已打开的标签页"
+            tips="已打开的标签页会打上标识并且优先被匹配"
+          >
+            <RadioGroup
+              name="searchOpenedTab"
+              value={formData.searchOpenedTab}
+              onChange={(value) => updateFormData({ searchOpenedTab: value })}
+            >
+              <Radio value="0">否</Radio>
+              <Radio value="1">是</Radio>
+            </RadioGroup>
           </FormItem>
           <FormItem label="书签不存在时是否使用默认搜索引擎搜索关键字">
             <RadioGroup

@@ -95,12 +95,17 @@
             }
 
             .is-temporary {
-              background-color: #eee;
+              background-color: #909399;
               width: max-content;
               padding: 2px 6px;
               border-radius: 4px;
               font-size: 12px;
-              color: #666;
+              color: #fff;
+
+              &.is-open {
+                color: #fff;
+                background-color: #67C23A;
+              }
             }
           }
 

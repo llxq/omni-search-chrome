@@ -1,11 +1,36 @@
-export interface IBookmark {
+export interface IOpenTabBookmark {
+  /**
+   * 是否为已经打开的标签页
+   */
+  isOpenTab?: boolean;
+  /**
+   * 对应的window下的tab的索引
+   */
+  tabIndex?: number;
+  /**
+   * 为已经打开的tab的时候的窗口id
+   */
+  windowId?: number;
+  /**
+   * 打开的window的索引
+   */
+  windowIndex?: number;
+}
+
+export interface ITemporaryBookmark {
+  /**
+   * 是否为临时数据
+   */
+  isTemporary?: boolean;
+}
+
+export interface IBookmark extends ITemporaryBookmark, IOpenTabBookmark {
   url: string;
   title: string;
   id: string;
   parentId?: string;
   parentTitle?: string;
   faviconURL: string;
-  isTemporary?: boolean;
 }
 
 export interface ITemporaryData extends IBookmark {
@@ -41,4 +66,9 @@ export interface ISearchBookmarkSetting {
    * @default 0
    */
   enableExtensionSearch: TBooleanValue;
+  /**
+   * 是否搜索打开的标签页
+   * @default 0
+   */
+  searchOpenedTab: TBooleanValue;
 }

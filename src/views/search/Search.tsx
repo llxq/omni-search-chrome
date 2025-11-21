@@ -33,6 +33,7 @@ export const Search = () => {
     open,
     selectedId,
     setSelectedId,
+    setting,
   } = useSearch();
 
   const searchBookmarksRef = useLatest(searchBookmarks);
@@ -105,7 +106,8 @@ export const Search = () => {
     <div className="search__container">
       <div className="search__input-container">
         <div className="tips">
-          Enter 打开选中项、Esc 取消、↑ 或 ↓ 切换选中项
+          Enter 打开选中项、Esc 取消、↑ 或 ↓
+          切换选中项。已打开标识中的两个数字代表：窗口/Tab
         </div>
         <input
           placeholder="请输入要搜索的关键字"
@@ -146,13 +148,18 @@ export const Search = () => {
               </div>
               <div className="search__list-item-content">
                 <div
-                  className={`title__container ${item.isTemporary ? "is-temporary__container" : ""}`}
+                  className={`title__container ${item.isTemporary || item.isOpenTab ? "is-temporary__container" : ""}`}
                 >
                   <div className="title" title={item.title}>
                     {item.title}
                   </div>
                   {item.isTemporary ? (
-                    <div className="is-temporary">临时书签</div>
+                    <div className="is-temporary">临时</div>
+                  ) : null}
+                  {item.isOpenTab ? (
+                    <div className="is-temporary is-open">
+                      已在 {item.windowIndex} / {item.tabIndex} 打开
+                    </div>
                   ) : null}
                 </div>
                 <div className="url" title={item.url}>
@@ -175,7 +182,11 @@ export const Search = () => {
           ))}
         </div>
         {!searchBookmarks.length ? (
-          <div className="no-result">未找到结果，请尝试其他关键字</div>
+          <div className="no-result">
+            {setting.useDefaultSearch === "1"
+              ? `回车即可通过默认浏览器搜索 ${keyword}`
+              : "未找到结果，请尝试其他关键字"}
+          </div>
         ) : null}
       </div>
     </div>

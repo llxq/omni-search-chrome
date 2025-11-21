@@ -18,6 +18,9 @@ body, html {
   --item-hover-bg-color: #E8F8FF;
   --item-active-color: #158DFF;
   --color-danger: #ff4d4f;
+  --notification-bg-color: rgb(240, 249, 235);
+  --notification-text-color: #67c23a;
+  --notification-border-color: rgb(225,243,216);
 }
 
 .layout__container {
@@ -63,5 +66,43 @@ body, html {
     padding: 12px 14px;
     flex: 1;
     overflow: hidden;
+  }
+}
+
+.__bookmark__notification {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateY(-20px) translateX(-50%);
+  padding: 4px 12px;
+  width: max-content;
+  border-radius: 2px;
+  font-size: 14px;
+  color: var(--notification-text-color);
+  background-color: var(--notification-bg-color);
+  border: 1px solid var(--notification-border-color);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 0;
+
+  &.is-error {
+    --notification-bg-color: rgb(254, 240, 240);
+    --notification-text-color: rgb(245, 108, 108);
+    --notification-border-color: rgb(253, 226, 226);
+  }
+
+  &.is-warning {
+    --notification-bg-color: rgb(253, 246, 236);
+    --notification-text-color: rgb(230, 162, 60);
+    --notification-border-color: rgb(250, 236, 216);
+  }
+
+  &.is-show {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+
+  &.is-fadeout {
+    opacity: 0;
+    transform: translateY(-20px) translateX(-50%);
   }
 }
