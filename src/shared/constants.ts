@@ -58,3 +58,8 @@ export const ruleSettingToWeight: Partial<Record<TOmniSearchRule, number>> = {
  * 历史记录最长几条
  */
 export const MAX_HISTORY_COUNT = 10;
+
+/**
+ * 是否获取DPR的 session  key
+ */
+export const GET_DPR_SESSION_KEY = "get_dpr_session";

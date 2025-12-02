@@ -77,7 +77,8 @@
             }
           }
 
-          .content__url, .content__path {
+          .content__url,
+          .content__path {
             font-size: var(--omni-font-size-sm);
             color: var(--omni-text-tertiary);
             overflow: hidden;
@@ -105,7 +106,8 @@
           }
         }
 
-        &.is-selected, &:hover {
+        &.is-selected,
+        &:hover {
           background-color: var(--omni-primary-hover-color);
           color: var(--omni-primary-color);
         }

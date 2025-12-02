@@ -59,7 +59,8 @@
             white-space: nowrap;
           }
 
-          .url, .created-time {
+          .url,
+          .created-time {
             font-size: var(--omni-font-size-sm);
             color: var(--omni-text-tertiary);
             overflow: hidden;
@@ -72,7 +73,6 @@
             margin-top: 2px;
           }
         }
-
       }
     }
 

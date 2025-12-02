@@ -1,4 +1,5 @@
 import "./collect-management.scss";
+import Fuse from "fuse.js";
 import { useEffect, useState } from "react";
 import { SearchInput } from "../../components/search-input/SearchInput.tsx";
 import { db } from "../../shared/Db.ts";
@@ -9,7 +10,7 @@ import type {
   IOmniSearchData,
   IOmniSeekTabParams,
 } from "../../shared/types.ts";
-import { formatTime } from "../../shared/utils.ts";
+import { formatTime, trimSpace } from "../../shared/utils.ts";
 
 export const CollectManagement = ({ editCollect }: IOmniSeekTabParams) => {
   const [keywords, setKeywords] = useState("");
@@ -18,10 +19,26 @@ export const CollectManagement = ({ editCollect }: IOmniSeekTabParams) => {
   const [collectData, setCollectData] = useState<IOmniCollectSearchData[]>([]);
   const [searchData, setSearchData] = useState<IOmniCollectSearchData[]>([]);
 
+  const [fuse, setFuse] =
+    useState<TUndefinable<Fuse<IOmniCollectSearchData>>>(void 0);
+
   useEffect(() => {
     getCollectionData().then((data) => {
       // 按照创建时间排序
       setCollectData(data.sort((a, b) => b.updateTime - a.updateTime));
+      setFuse(
+        new Fuse(
+          data.map((m) => {
+            return {
+              ...m,
+              titleNoSpace: trimSpace(m.title),
+            };
+          }),
+          {
+            keys: ["title", "titleNoSpace"],
+          },
+        ),
+      );
     });
   }, []);
 
@@ -37,11 +54,7 @@ export const CollectManagement = ({ editCollect }: IOmniSeekTabParams) => {
       setSearchData(collectData);
     } else {
       if (!isComposition) {
-        setSearchData(
-          collectData.filter((item) =>
-            item.title.toLowerCase().includes(keywords.trim().toLowerCase()),
-          ),
-        );
+        setSearchData((fuse?.search(keywords) || []).map(({ item }) => item));
       }
     }
   }, [keywords, collectData, isComposition]);

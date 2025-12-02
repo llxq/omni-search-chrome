@@ -7,7 +7,8 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   overflow: hidden;
   background-color: transparent;
 }
@@ -16,8 +17,8 @@ body, html {
   display: contents;
 
   .layout__container {
-    width: 600px;
-    height: 600px;
+    width: var(--omni-width);
+    height: var(--omni-height);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -77,7 +78,9 @@ body, html {
   color: var(--omno-notification-text-color);
   background-color: var(--omno-notification-bg-color);
   border: 1px solid var(--omno-notification-border-color);
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
   opacity: 0;
 
   &.is-error {

@@ -91,6 +91,7 @@ export const useSearch = () => {
           setSelectData(historyData[0]);
           setSearchData(historyData);
         }
+        setHistoryData(historyData);
       });
     }
   }, [loading]);

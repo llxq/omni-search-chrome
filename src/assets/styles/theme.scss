@@ -1,4 +1,7 @@
-:root{
+:root {
+  --omni-width: 600px;
+  --omni-height: 600px;
+
   --omni-search-input-border-radius: 4px;
   --omni-search-input-padding: 8px 12px;
 
@@ -59,9 +62,9 @@
   --omni-border-color: #3c4043;
   --omni-form-item-component-border-color: #3c4043;
 
-  --omni-text-primary: #E5EAF3;
-  --omni-text-secondary: #CFD3DC;
-  --omni-text-tertiary: #A3A6AD;
+  --omni-text-primary: #e5eaf3;
+  --omni-text-secondary: #cfd3dc;
+  --omni-text-tertiary: #a3a6ad;
 
   --omni-search-input-text-color: var(--omni-bg-color);
 
@@ -70,5 +73,5 @@
   @extend .base-theme;
 
   --omni-collect-tag-bg-color: rgba(250, 173, 20, 0.15); /* 金色 15% 透明度 */
-  --omni-tab-tag-bg-color: rgba(82, 196, 26, 0.15);      /* 绿色 15% 透明度 */
+  --omni-tab-tag-bg-color: rgba(82, 196, 26, 0.15); /* 绿色 15% 透明度 */
 }

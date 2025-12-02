@@ -99,9 +99,41 @@ const registerShortcut = () => {
 };
 
 /**
+ * 获取当前标签页的 DPR
+ */
+export const getDprFromActiveTab = async () => {
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  if (!tab || !tab.id) return null;
+  try {
+    const results = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => {
+        return window.devicePixelRatio;
+      },
+    });
+    if (results && results[0]) {
+      return Promise.resolve(results[0].result);
+    }
+    if (chrome.runtime.lastError) {
+      console.warn(
+        "无法获取当前标签页的 DPR:",
+        chrome.runtime.lastError.message,
+      );
+    }
+    return Promise.resolve(null);
+  } catch (error) {
+    console.warn("无法获取当前标签页的 DPR:", error);
+    return Promise.resolve(null);
+  }
+};
+
+/**
  * 更新收藏数据
  */
-const registerOnAddOrUpdateCollectionData = () => {
+const registerOnMessage = () => {
   chrome.runtime.onMessage.addListener(({ type, data }) => {
     if (type === UPDATE_COLLECTION_DATA_MESSAGE_KEY) {
       if (data.updateTime) {
@@ -124,7 +156,7 @@ const registerOnAddOrUpdateCollectionData = () => {
 export const bootstrapBackground = () => {
   registerContextMenu();
   registerShortcut();
-  registerOnAddOrUpdateCollectionData();
+  registerOnMessage();
 
   // 所有的操作db的数据都放在background中进行
   onGetAllCollectionDataByDb();

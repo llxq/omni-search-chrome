@@ -35,6 +35,14 @@ export const useLatest = <T>(value: T) => {
 };
 
 /**
+ * 去除空格
+ * @param value
+ */
+export const trimSpace = (value: string) => {
+  return value.replace(/\s+/g, "");
+};
+
+/**
  * 给设定的搜索规则增加去除空格的内容
  */
 export const getFuseSearchResult = (item: IOmniSearchData) => {
@@ -44,7 +52,7 @@ export const getFuseSearchResult = (item: IOmniSearchData) => {
     ...defaultSetting.searchRules.reduce((pre, cur) => {
       const value = Reflect.get(item, cur) as string;
       if (!value) return pre;
-      Reflect.set(pre, `${cur}NoSpace`, value.replace(/\s+/g, ""));
+      Reflect.set(pre, `${cur}NoSpace`, trimSpace(value));
       return pre;
     }, {}),
   };

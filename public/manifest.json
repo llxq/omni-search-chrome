@@ -19,7 +19,8 @@
     "storage",
     "search",
     "notifications",
-    "contextMenus"
+    "contextMenus",
+    "scripting"
   ],
   "action": {
     "default_popup": "popup.html"
