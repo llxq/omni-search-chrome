@@ -5,15 +5,17 @@
 🚀 **Omni 搜** 旨在重塑你的浏览体验。只需按下 `Ctrl/⌘ + K`，即可瞬间唤起强大的命令面板。利用 `Fuse.js` 驱动的本地模糊检索，毫秒级直达你的 书签、标签页。
 我们深知 `书签洁癖` 用户的痛苦，因此独创了 **收藏** 功能——你可以随意保存临时网页，而 **绝不污染** 你精心整理的原生书签库。
 
+<img width="600" height="600" alt="image" src="https://github.com/user-attachments/assets/8b220b48-9afb-42dd-9ce6-c6710b199928" />
+
 ## ✨ 功能特性
 
-- ⚡ **极速启动** - 在浏览器的任何页面中，通过 `Ctrl/⌘ + K` 一键唤起，键盘流操作，双手不离键盘。或者点击扩展图标唤起。（如遇到快捷键失效的情况，请查看 [为什么快捷键不生效？](https://github.com/llxq/omni-search-chrome?tab=readme-ov-file#-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)）
+- ⚡ **极速启动** - 在浏览器的任何页面中，通过 `Ctrl/⌘ + K` 一键唤起，键盘流操作，双手不离键盘。或者点击扩展图标唤起。**如遇到快捷键失效的情况，请查看 [为什么快捷键不生效？](https://github.com/llxq/omni-seek/tree/master?tab=readme-ov-file#-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)**
 - 🛡️ **隐私至上** - **零数据收集**。所有搜索、索引、存储完全在本地离线运行。
 - 🔍 **智能匹配** - 基于 `Fuse.js`，支持`标题`、`URL`、`书签文件夹路径`的模糊匹配与正则搜索。
 - 🧩 **多源聚合** - 同时搜索 `书签`、`已打开标签页`、未命中时自动回退至默认搜索引擎。
 - 📂 **文件夹层级** - 使用 `/` 分隔符搜索多级文件夹结构。（如：`/js/` 会搜索书签 `js` 目录下的所有书签。）
 - ⏱️ **历史记录** - 自动保存最近访问的 10 条记录
-- ⚙️ **高度可定制** - 可配置的搜索规则和快捷键
+- ⚙️ **高度可定制** - 可配置的搜索规则和主题
 - 📝 **收藏管理** - 添加任何网站到收藏列表，不污染主书签数据，收藏数据会持久保存在插件内部
 
 ## 🚀 快速开始
@@ -37,7 +39,7 @@ npm run build
 1. 打开 Chrome 扩展页面 (chrome://extensions/)
 2. 启用"开发者模式"
 3. 点击"加载已解压的扩展程序"
-4. 选择项目中的 `dist` 文件夹，（或者直接将 `dist` 目录拖动到浏览器中即可）
+4. 选择项目中的 `dist` 文件夹。
 ```
 
 #### 方法二：直接加载（普通用户）
@@ -48,8 +50,10 @@ npm run build
 
 #### 🔔 安装参考
 
-<img width="1920" height="934" alt="image" src="https://github.com/user-attachments/assets/a00a2cc8-75f9-4501-8125-fca9444baa97" />
+<img width="1920" height="968" alt="image" src="https://github.com/user-attachments/assets/6907bd15-8d0d-452f-a1b5-59339da5387d" />
+
 - 点击固定，可以将插件固定在扩展部分，方便使用，可以直接点击插件图标唤起搜索界面。
+  
 <img width="320" height="110" alt="image" src="https://github.com/user-attachments/assets/60261aa6-fd74-41e3-ad68-ebfb824adde9" />
 
 ## 🎯 使用指南
@@ -65,10 +69,10 @@ npm run build
 ### ⚙️ 设置选项
 
 点击扩展图标打开设置页面，您可以：
-
 - 自定义调整搜索匹配规则
 - 修改主题
 - 自定义搜索功能
+  <img width="600" height="600" alt="image" src="https://github.com/user-attachments/assets/a249a870-878b-4d16-827e-59b16c4bf86d" />
 
 ### 📌 收藏管理
 
@@ -80,9 +84,10 @@ npm run build
     - 在任意网页上点击右键
     - 选择"添加到 Omni收藏"
     - 根据自己的需求选择是否需要自定义标题，还是默认用当前网站标题加入到搜索列表中。
-      ![添加到 Omni收藏](https://github.com/user-attachments/assets/bdf38818-300e-4b03-9cc8-1edcd48dc482)
+      <img width="398" height="108" alt="image" src="https://github.com/user-attachments/assets/8becf0ca-32a7-437b-86aa-28e50787949b" />
+
     - 您还可以自定义名称，点击 `添加到 Omni收藏 / 自定义名称添加`，修改为您想要的名称然后保存即可。（注意：搜索时是根据您设置的名称来搜索的）
-      <img width="280" height="176" alt="image" src="https://github.com/user-attachments/assets/68bb4200-c6f8-422f-a31c-bd2edb146389" />
+      <img width="324" height="178" alt="image" src="https://github.com/user-attachments/assets/60e0cae8-e414-4baf-b517-3f3b4ba676ff" />
 
 2. **管理收藏**：
     - 点击扩展图标打开主界面 或者通过快捷键：`Ctrl + K` (Windows/Linux) 或 `⌘ + K` (Mac)
@@ -90,15 +95,34 @@ npm run build
     - 查看所有已保存的收藏数据
     - 点击"删除"可移除不需要的收藏数据
     - 点击"编辑"可重新编辑收藏数据名称
-      <img width="600" height="161" alt="image" src="https://github.com/user-attachments/assets/7371be68-5d61-4c88-abfb-e62eb40bb036" />
+  
+      <img width="600" height="218" alt="image" src="https://github.com/user-attachments/assets/2f93663e-4c6c-4249-b50d-e935d12bd864" />
 
 3. **搜索收藏**：
     - 在搜索框中输入关键词
     - 收藏会与普通书签一起显示在搜索结果中，收藏会有tag标识
-      <img width="600" height="241" alt="image" src="https://github.com/user-attachments/assets/548f5b2c-749a-4b43-96ee-224b22aa8d1e" />
+      <img width="600" height="276" alt="image" src="https://github.com/user-attachments/assets/0d16f6e9-7347-48ce-abd2-64678df76ac7" />
 
 4. **对于禁用了右键功能的网站**：
     - 您可以通过快捷键 `Ctrl + Shift + K` 打开保存窗口保存即可。
+  
+### 🔍 搜索
+1. 搜索结果tag说明
+    - 标签：W1 / T10
+      - 说明在是打开的标签页：在第 `1` 个浏览器窗口，第 `10` 个浏览器tab
+    - 收藏
+      - 表示为收藏数据
+    - 无tag
+      - 表示为书签数据
+
+
+### 🎨 主题参考
+#### light
+<img width="600" height="600" alt="image" src="https://github.com/user-attachments/assets/24894cc7-ee95-43fa-b703-e335c6d61949" />
+
+#### dark
+<img width="600" height="600" alt="image" src="https://github.com/user-attachments/assets/53e6b118-b185-407e-9474-755b206e1460" />
+
 
 ## 🔧 开发指南
 
