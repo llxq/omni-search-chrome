@@ -65,6 +65,7 @@ npm run build
 - **打开**：`Enter` 在新标签页打开选中的书签
 - **关闭**：`Esc` 或点击搜索框外部
 - **添加到 Omni收藏**：在任意网页上点击右键，选择"添加到 Omni收藏"，即可将当前网站加入到搜索列表中，并且不会污染您浏览器的书签数据
+- **快捷键修改**：访问 [快捷键修改](chrome://extensions/shortcuts)，找到 `Omni 搜` 插件修改对应的快捷键即可
 
 ### ⚙️ 设置选项
 
@@ -184,20 +185,17 @@ npm run lint
 
 ## ❓ 常见问题
 
-<details>
-  <summary>为什么快捷键不生效？</summary>
-  可能是与其他扩展或应用程序的快捷键冲突。请访问 `chrome://extensions/shortcuts` 修改扩展的快捷键。可以重新设置快捷键，重新设置为 `Ctrl/⌘ + K` 或者您想要的快捷键即可激活。
- <img width="1920" height="335" alt="image" src="https://github.com/user-attachments/assets/3f7fab17-3bd8-4a93-aa35-3ea39059dd97" />
+- **为什么快捷键不生效？**
+  1. 请访问 [快捷键修改](chrome://extensions/shortcuts) 重新设置快捷键，重新设置为 `Ctrl/⌘ + K` 或者您想要的快捷键即可激活。
+  2. 可能是与其他扩展或应用程序的快捷键冲突。请访问 [快捷键修改](chrome://extensions/shortcuts) 修改扩展的快捷键。
+  
+ <img width="1920" height="352" alt="image" src="https://github.com/user-attachments/assets/7cf2b5ea-3b52-46c7-84b8-0d439876cf52" />
 
-</details>
 
-<details>
-  <summary>为什么有些书签搜索不到？</summary>
-  请检查：
+- **为什么有些书签搜索不到？**
   1. 设置中的搜索规则是否包含了相关字段（标题/URL/父文件夹）
   2. 尝试使用更精确的关键词
   3. 确认书签是否存在于当前浏览器的书签中
-</details>
 
 ## 📝 权限说明
 
@@ -213,6 +211,7 @@ npm run lint
 - `search` - 使用默认搜索引擎进行搜索
 - `notifications` - 消息通知
 - `contextMenus` - 添加右键菜单
+- `scripting` - 用于获取当前网站的DRP来优化界面体验
 
 ## 📄 许可证
 
