@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { GET_DPR_SESSION_KEY } from "../shared/constants.ts";
 import { getDprFromActiveTab } from "../shared/register.ts";
+import { interceptChromeRuntimeLastError } from "../shared/utils.ts";
 import { Layout } from "./layout/Layout.tsx";
 
 const bootstrap = async () => {
@@ -15,24 +16,24 @@ const bootstrap = async () => {
         window.stop?.();
         // 尝试刷新界面
         window.location.reload();
+        return Promise.reject();
       }
     }
-    if (chrome.runtime.lastError) {
-      console.warn(
-        "无法获取当前标签页的 DPR:",
-        chrome.runtime.lastError.message,
-      );
-    }
   } catch (error) {
-    console.warn("获取 DPR 出错:", error);
+    interceptChromeRuntimeLastError();
+    console.log("获取 DPR 出错:", error);
   }
   return Promise.resolve();
 };
 
-bootstrap().then(() => {
-  createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-      <Layout />
-    </StrictMode>,
-  );
-});
+bootstrap()
+  .then(() => {
+    createRoot(document.getElementById("root")!).render(
+      <StrictMode>
+        <Layout />
+      </StrictMode>,
+    );
+  })
+  .catch(() => {
+    console.log("reload");
+  });

@@ -101,3 +101,12 @@ export const getTagDefinition = (data: IOmniSearchData) => {
   }
   return void 0;
 };
+
+/**
+ * 拦截 chrome.runtime.lastError
+ */
+export const interceptChromeRuntimeLastError = () => {
+  if (chrome.runtime.lastError) {
+    console.log("【lastError】", chrome.runtime.lastError.message);
+  }
+};

@@ -15,6 +15,7 @@ import {
 } from "./event.ts";
 import { createSystemNotification } from "./notice.ts";
 import type { IOmniSearchData } from "./types.ts";
+import { interceptChromeRuntimeLastError } from "./utils.ts";
 
 /**
  * 根据tab创建收藏数据
@@ -88,11 +89,8 @@ const registerShortcut = () => {
           void createSystemNotification("无法获取当前tab，请刷新重试");
           return;
         }
-        if (chrome.runtime.lastError) {
-          console.log(chrome.runtime.lastError.message);
-        } else {
-          void openAddCollectionDataPage(createOmniCollectionByTab(tab), tab);
-        }
+        interceptChromeRuntimeLastError();
+        void openAddCollectionDataPage(createOmniCollectionByTab(tab), tab);
       });
     }
   });
@@ -117,15 +115,10 @@ export const getDprFromActiveTab = async () => {
     if (results && results[0]) {
       return Promise.resolve(results[0].result);
     }
-    if (chrome.runtime.lastError) {
-      console.warn(
-        "无法获取当前标签页的 DPR:",
-        chrome.runtime.lastError.message,
-      );
-    }
     return Promise.resolve(null);
   } catch (error) {
-    console.warn("无法获取当前标签页的 DPR:", error);
+    interceptChromeRuntimeLastError();
+    console.log("无法获取当前标签页的 DPR:", error);
     return Promise.resolve(null);
   }
 };

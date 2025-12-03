@@ -36,6 +36,7 @@ export default series(
          * @type {import("vite").UserConfig}
          */
         const viteConfig = {
+          mode: "production",
           plugins: config.plugins || [],
           build: {
             lib: {
