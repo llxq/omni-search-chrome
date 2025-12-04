@@ -194,6 +194,18 @@ npm run lint
   2. 尝试使用更精确的关键词
   3. 确认书签是否存在于当前浏览器的书签中
 
+- **windows 下 build 命令执行失败？**
+  1. 删除 `package-locak.json` 文件
+  2. 删除之前安装的 `node_modules` 文件
+  3. 清除安装过的 npm 缓存：`npm cache clean --force`
+  4. 重新执行 build 命令：`npm run build`
+  5. 如果还是不行，请提交 [Issues](https://github.com/llxq/omni-seek/issues) 并附带您的报错截图
+
+- **执行 build 命令 tsc 报错导致的语法错误**
+  1. 您可以尝试按照提示修复该类型报错并且欢迎您提交 [Pull Requests](https://github.com/llxq/omni-seek/pulls)
+  2. 如果您不想修改报错，可以修改 `package.json` 中 `build` 脚本为 build: "gulp"
+  3. 如果您不想修改文件，可直接通过 npx 执行 gulp 脚本，直接在终端运行：`npx gulp`
+
 ## 📝 权限说明
 
 本扩展需要以下权限来提供完整功能：
